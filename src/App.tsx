@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import './styles/App.css'
+import { socketListen } from '@/helpers/socket.ts'
+import { walletDetails } from '@/helpers/SuperAppApiService.ts'
+import { EventWalletBalance } from '@/types/SuperAppType.ts'
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [fullName, setFullName] = useState<string | null>(null)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        const handleEvent = async (data: EventWalletBalance) => {
+            const wallet = await walletDetails(data.wallet_id)
+            const fullName: string = `${wallet.user.first_name} ${wallet.user.last_name}`
+
+            console.log('User => ', fullName)
+
+            setFullName(fullName)
+        }
+
+        socketListen(handleEvent)
+    }, [])
+
+    console.log('inittt!')
+
+    return (
+        <>
+            <h1>Hoş Geldiniz {fullName}</h1>
+        </>
+    )
 }
 
 export default App
