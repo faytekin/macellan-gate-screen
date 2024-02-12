@@ -1,10 +1,14 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { EventWalletBalance } from '@/types/ApiType.ts'
+import { ApiAppInfo, ApiUser, EventWalletBalance } from '@/types/ApiType.ts'
+import ApiService from './ApiService'
 
 let socketInstance: Echo
 
-const listen = (handleEvent: (data: EventWalletBalance) => void) => {
+const listen = (
+    envData: ApiAppInfo['pusher'],
+    onChangeEvent: (data: EventWalletBalance, user: ApiUser) => void,
+) => {
     socketDisconnect()
 
     console.log('[Socket] connecting')
@@ -12,10 +16,10 @@ const listen = (handleEvent: (data: EventWalletBalance) => void) => {
     socketInstance = new Echo({
         Pusher,
         broadcaster: 'pusher',
-        key: import.meta.env.VITE_SOCKET_KEY,
-        wsHost: import.meta.env.VITE_SOCKET_HOST,
-        wsPort: 6002,
-        wssPort: 6002,
+        key: envData.key,
+        wsHost: envData.host,
+        wsPort: envData.port,
+        wssPort: envData.port,
         cluster: 'eu',
         forceTLS: false,
         encrypted: true,
@@ -40,9 +44,9 @@ const listen = (handleEvent: (data: EventWalletBalance) => void) => {
 
     socketInstance
         .private('company.2')
-        .listen('.wallet.balance', (data: EventWalletBalance) => {
-            console.log('[Socket] data => ', data)
-            void handleEvent(data)
+        .listen('.wallet.balance', async (data: EventWalletBalance) => {
+            const wallet = await ApiService.walletDetails(data.wallet_id)
+            onChangeEvent(data, wallet.user)
         })
         .subscribed(() => {
             console.log('[Socket] is connected to private channel')

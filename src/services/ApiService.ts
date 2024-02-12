@@ -1,5 +1,6 @@
-import { ApiAppInfo, WalletDetail } from '@/types/ApiType.ts'
 import axios, { AxiosInstance } from 'axios'
+
+import { ApiAppInfo, WalletDetail } from '@/types/ApiType.ts'
 
 const http: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_SUPERAPP_URL,
