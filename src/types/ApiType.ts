@@ -1,14 +1,14 @@
-export interface SuperAppWalletDetail {
+export interface WalletDetail {
     id: number
     type: string
     visibility: boolean
     balance: number
     point: number
     company_id: number
-    user: SuperAppUser
+    user: ApiUser
 }
 
-export interface SuperAppUser {
+export interface ApiUser {
     id: number
     first_name: string
     last_name: string

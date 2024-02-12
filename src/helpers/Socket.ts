@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { EventWalletBalance } from '@/types/SuperAppType'
+import { EventWalletBalance } from '@/types/ApiType.ts'
 
 let socket: Echo
 

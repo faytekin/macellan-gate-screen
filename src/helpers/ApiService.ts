@@ -1,4 +1,4 @@
-import { SuperAppWalletDetail } from '@/types/SuperAppType'
+import { WalletDetail } from '@/types/ApiType.ts'
 import axios, { AxiosInstance } from 'axios'
 
 const http: AxiosInstance = axios.create({
@@ -10,7 +10,7 @@ const http: AxiosInstance = axios.create({
     },
 })
 
-export const walletDetails = async (id: number): Promise<SuperAppWalletDetail> => {
+export const walletDetails = async (id: number): Promise<WalletDetail> => {
     const result = await http.get(`integration/wallet/${id}/details`)
 
     return result.data.data

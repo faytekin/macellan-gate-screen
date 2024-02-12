@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import './styles/App.css'
-import { socketListen } from '@/helpers/socket.ts'
-import { walletDetails } from '@/helpers/SuperAppApiService.ts'
-import { EventWalletBalance } from '@/types/SuperAppType.ts'
+import { socketListen } from '@/helpers/Socket.ts'
+import { walletDetails } from '@/helpers/ApiService.ts'
+import { EventWalletBalance } from '@/types/ApiType.ts'
 
 function App() {
     const [fullName, setFullName] = useState<string | null>(null)
