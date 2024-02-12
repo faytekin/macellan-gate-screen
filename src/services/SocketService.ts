@@ -1,12 +1,13 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { ApiAppInfo, ApiUser, EventWalletBalance } from '@/types/ApiType.ts'
+import { ApiUser, EventWalletBalance, PusherType } from '@/types/ApiType.ts'
 import ApiService from './ApiService'
 
 let socketInstance: Echo
 
 const listen = (
-    envData: ApiAppInfo['pusher'],
+    envData: PusherType,
+    companyId: number,
     onChangeEvent: (data: EventWalletBalance, user: ApiUser) => void,
 ) => {
     socketDisconnect()
@@ -43,7 +44,7 @@ const listen = (
     })
 
     socketInstance
-        .private('company.2')
+        .private(`company.${companyId}`)
         .listen('.wallet.balance', async (data: EventWalletBalance) => {
             const wallet = await ApiService.walletDetails(data.wallet_id)
             onChangeEvent(data, wallet.user)

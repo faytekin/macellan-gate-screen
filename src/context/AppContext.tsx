@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 import ApiService from '@/services/ApiService'
-import { ApiAppInfo, ApiUser } from '@/types/ApiType'
+import { ApiAuthUser, ApiUser, PusherType } from '@/types/ApiType'
 import SocketService from '@/services/SocketService'
 
 export interface AppContextValues {
     isReady: boolean
-    authUser: ApiAppInfo['auth_user'] | undefined
-    pusherData: ApiAppInfo['pusher'] | undefined
+    authUser: ApiAuthUser | undefined
+    pusherData: PusherType | undefined
     user: ApiUser | undefined
 }
 
@@ -22,8 +22,8 @@ export const useAppContext = () => React.useContext(AppContext)
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [isReady, setReady] = React.useState<boolean>(false)
-    const [authUser, setAuthUser] = React.useState<ApiAppInfo['auth_user']>()
-    const [pusherData, setPusherData] = React.useState<ApiAppInfo['pusher']>()
+    const [authUser, setAuthUser] = React.useState<ApiAuthUser>()
+    const [pusherData, setPusherData] = React.useState<PusherType>()
 
     const [user, setUser] = React.useState<ApiUser>()
 
@@ -38,13 +38,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }, [])
 
     React.useEffect(() => {
-        init()
+        void init()
     }, [init])
 
     React.useEffect(() => {
-        if (!pusherData) return
+        if (!pusherData || !authUser) return
 
-        SocketService.listen(pusherData, (_, eventUser) => {
+        SocketService.listen(pusherData, authUser.company_id, (_, eventUser) => {
             setUser(eventUser)
         })
     }, [pusherData])
