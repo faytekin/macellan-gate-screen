@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './styles/App.css'
-import SocketService from '@/helpers/SocketService.ts'
-import ApiService from '@/helpers/ApiService.ts'
+import SocketService from '@/services/SocketService.ts'
+import ApiService from '@/services/ApiService.ts'
 import { EventWalletBalance } from '@/types/ApiType.ts'
 
 function App() {
