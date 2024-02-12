@@ -2,14 +2,14 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import { EventWalletBalance } from '@/types/ApiType.ts'
 
-let socket: Echo
+let socketIntance: Echo
 
-export const socketListen = (handleEvent: (data: EventWalletBalance) => void) => {
+const listen = (handleEvent: (data: EventWalletBalance) => void) => {
     socketDisconnect()
 
     console.log('[Socket] connecting')
 
-    socket = new Echo({
+    socketIntance = new Echo({
         Pusher,
         broadcaster: 'pusher',
         key: import.meta.env.VITE_SOCKET_KEY,
@@ -25,20 +25,20 @@ export const socketListen = (handleEvent: (data: EventWalletBalance) => void) =>
         bearerToken: import.meta.env.VITE_SUPERAPP_TOKEN,
     })
 
-    socket.connector.pusher.connection.bind('connected', () => {
+    socketIntance.connector.pusher.connection.bind('connected', () => {
         console.log('[Socket] connected')
     })
 
-    socket.connector.pusher.connection.bind('error', (err: never) => {
+    socketIntance.connector.pusher.connection.bind('error', (err: never) => {
         console.log('[Socket] error => ', err)
     })
 
-    socket.connector.pusher.connection.bind('disconnected', () => {
+    socketIntance.connector.pusher.connection.bind('disconnected', () => {
         console.log('[Socket] disconnected => ')
-        socket.leaveAllChannels()
+        socketIntance.leaveAllChannels()
     })
 
-    socket
+    socketIntance
         .private('company.2')
         .listen('.wallet.balance', (data: EventWalletBalance) => {
             console.log('[Socket] data => ', data)
@@ -53,10 +53,14 @@ export const socketListen = (handleEvent: (data: EventWalletBalance) => void) =>
 }
 
 const socketDisconnect = (): void => {
-    if (!socket) {
+    if (!socketIntance) {
         return
     }
 
-    socket.disconnect()
-    socket.leaveAllChannels()
+    socketIntance.disconnect()
+    socketIntance.leaveAllChannels()
+}
+
+export default {
+    listen: listen,
 }

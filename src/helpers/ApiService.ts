@@ -1,4 +1,4 @@
-import { WalletDetail } from '@/types/ApiType.ts'
+import { ApiAppInfo, WalletDetail } from '@/types/ApiType.ts'
 import axios, { AxiosInstance } from 'axios'
 
 const http: AxiosInstance = axios.create({
@@ -10,8 +10,19 @@ const http: AxiosInstance = axios.create({
     },
 })
 
-export const walletDetails = async (id: number): Promise<WalletDetail> => {
+const walletDetails = async (id: number): Promise<WalletDetail> => {
     const result = await http.get(`integration/wallet/${id}/details`)
 
     return result.data.data
+}
+
+const appInfo = async (): Promise<ApiAppInfo> => {
+    const result = await http.get('integration/app-info')
+
+    return result.data.data
+}
+
+export default {
+    appInfo: appInfo,
+    walletDetails: walletDetails,
 }
