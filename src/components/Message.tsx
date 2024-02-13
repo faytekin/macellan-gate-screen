@@ -22,9 +22,15 @@ const Message: React.FC = () => {
     if (!user) return null
 
     return (
-        <div className={`flex flex-col items-center justify-center h-full ${isVisible ? '' : 'invisible'}`}>
-            <div className="text-3xl mb-6 animate-fade animate-delay-[500ms]">Hoşgeldin</div>
-            <h1 className="text-7xl font-bold mb-10 animate-jump-in animate-once">
+        <div className="flex flex-col items-center justify-center h-full">
+            <div
+                className={`text-3xl mb-6 animate-fade animate-once ${isVisible ? 'animate-delay-[500ms]' : 'animate-ease-out animate-jump-out'}`}
+            >
+                Hoşgeldin
+            </div>
+            <h1
+                className={`text-7xl font-bold mb-10 animate-jump-in animate-once ${isVisible ? '' : 'animate-delay-[400ms] animate-ease-out animate-jump-out'}`}
+            >
                 {user.first_name} {user.last_name}
             </h1>
         </div>
