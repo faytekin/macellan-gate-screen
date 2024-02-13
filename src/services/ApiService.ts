@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
-import { ApiAppInfo, WalletDetail } from '@/types/ApiType.ts'
+import { ApiAppInfo, PaymentDetail, WalletDetail } from '@/types/ApiType.ts'
 
 const http: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_SUPERAPP_URL,
@@ -17,6 +17,12 @@ const walletDetails = async (id: number): Promise<WalletDetail> => {
     return result.data.data
 }
 
+const paymentDetails = async (id: number): Promise<PaymentDetail> => {
+    const result = await http.get(`integration/payment/${id}/details`)
+
+    return result.data.data
+}
+
 const appInfo = async (): Promise<ApiAppInfo> => {
     const result = await http.get('integration/app-info')
 
@@ -26,4 +32,5 @@ const appInfo = async (): Promise<ApiAppInfo> => {
 export default {
     appInfo: appInfo,
     walletDetails: walletDetails,
+    paymentDetails: paymentDetails,
 }

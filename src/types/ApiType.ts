@@ -9,6 +9,28 @@ export interface PusherType {
     key: string
 }
 
+export interface PaymentDetail {
+    id: number
+    user: ApiUser
+    paid_price: number
+    point: number
+    final_total: number
+    refund_amount: number
+    transaction_code: string
+    reference_code: number
+    order_id: number
+    payment_time: string
+    created_at: string
+    related: PaymentRelated
+}
+
+interface PaymentRelated {
+    name: string
+    qr_code: string
+    reference_code: string
+    active: boolean
+}
+
 export interface WalletDetail {
     id: number
     type: string
@@ -20,9 +42,10 @@ export interface WalletDetail {
 }
 
 export interface ApiUser {
-    id: number
+    uuid: string
     first_name: string
     last_name: string
+    full_name: string
     email: string
     phone: string
 }
@@ -47,4 +70,6 @@ export interface EventWalletBalance {
     user_id: number
     company_id: number
     wallet_id: number
+    historyable_type: string
+    historyable_id: number
 }

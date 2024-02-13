@@ -19,6 +19,8 @@ const Message: React.FC = () => {
         }
     }, [user])
 
+    // https://www.tailwindcss-animated.com/configurator.html?animation=fade&count=once&ease=ease-out&direction=reverse&fill=fill-both
+
     if (!user) return null
 
     return (

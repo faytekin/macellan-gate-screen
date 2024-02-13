@@ -46,8 +46,17 @@ const listen = (
     socketInstance
         .private(`company.${companyId}`)
         .listen('.wallet.balance', async (data: EventWalletBalance) => {
-            const wallet = await ApiService.walletDetails(data.wallet_id)
-            onChangeEvent(data, wallet.user)
+            if (!data.historyable_type.endsWith('Payment')) {
+                return
+            }
+
+            const payment = await ApiService.paymentDetails(data.historyable_id)
+
+            if (payment.related?.reference_code !== import.meta.env.VITE_TAG_QR_REFERENCE_CODE) {
+                return
+            }
+
+            onChangeEvent(data, payment.user)
         })
         .subscribed(() => {
             console.log('[Socket] is connected to private channel')
