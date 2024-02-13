@@ -10,7 +10,7 @@ deploy development:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - sed -i "s|VITE_SUPERAPP_URL=.*|VITE_SUPERAPP_URL=${SUPERAPP_URL}|g" .env.example
-    - sed -i "s|VITE_SUPERAPP_TOKEN=.*|VITE_SUPERAPP_TOKEN=${SUPERAPP_TOKEN}|g" .env.example
+    - sed -i "s/VITE_SUPERAPP_TOKEN=.*/VITE_SUPERAPP_TOKEN=${SUPERAPP_TOKEN}/g" .env.example
     - sed -i "s|VITE_TAG_QR_REFERENCE_CODE=.*|VITE_TAG_QR_REFERENCE_CODE=${TAG_QR_REFERENCE_CODE}|g" .env.example
     - mv .env.example .env
     - docker build --push
