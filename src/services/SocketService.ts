@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { ApiUser, EventWalletBalance, PusherType } from '@/types/ApiType.ts'
+import { User, EventWalletBalance, PusherType } from '@/types/ApiType.ts'
 import ApiService from './ApiService'
 
 let socketInstance: Echo
@@ -8,7 +8,7 @@ let socketInstance: Echo
 const listen = (
     envData: PusherType,
     companyId: number,
-    onChangeEvent: (data: EventWalletBalance, user: ApiUser) => void,
+    onChangeEvent: (data: EventWalletBalance, user: User) => void,
 ) => {
     socketDisconnect()
 

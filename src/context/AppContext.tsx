@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import ApiService from '@/services/ApiService'
-import { ApiAuthUser, ApiUser, PusherType } from '@/types/ApiType'
+import { ApiAuthUser, User, PusherType } from '@/types/ApiType'
 import SocketService from '@/services/SocketService'
 
 export interface AppContextValues {
     isReady: boolean
     authUser: ApiAuthUser | undefined
     pusherData: PusherType | undefined
-    user: ApiUser | undefined
+    user: User | undefined
 }
 
 export interface AppProviderProps {
@@ -25,7 +25,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [authUser, setAuthUser] = React.useState<ApiAuthUser>()
     const [pusherData, setPusherData] = React.useState<PusherType>()
 
-    const [user, setUser] = React.useState<ApiUser>()
+    const [user, setUser] = React.useState<User>()
 
     const init = React.useCallback(async () => {
         setReady(true)

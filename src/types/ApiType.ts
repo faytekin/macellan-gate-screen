@@ -11,7 +11,7 @@ export interface PusherType {
 
 export interface PaymentDetail {
     id: number
-    user: ApiUser
+    user: User
     paid_price: number
     point: number
     final_total: number
@@ -38,16 +38,29 @@ export interface WalletDetail {
     balance: number
     point: number
     company_id: number
-    user: ApiUser
+    user: User
 }
 
-export interface ApiUser {
+export interface User {
     uuid: string
     first_name: string
     last_name: string
     full_name: string
     email: string
     phone: string
+    details: UserDetails
+}
+
+interface UserDetails {
+    avatar_url: string
+    device_id: string
+    sim_id: string | null
+    id_number: string | null
+    gender: 'male' | 'female' | 'prefer_not_respond'
+    birth_year: number | null
+    birthday: string
+    subscribe_email: boolean
+    subscribe_sms: boolean
 }
 
 export interface ApiAuthUser {
