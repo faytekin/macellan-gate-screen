@@ -28,10 +28,10 @@ const Message: React.FC = () => {
             {isVisible && user ? (
                 <div className="flex flex-col items-center animate-fade animate-once">
                     {user.details.avatar_url && (
-                        <img src={user.details.avatar_url} alt="Avatar" className="w-20 h-20 rounded-full mb-6 animate-jump" />
+                        <img src={user.details.avatar_url} alt="Avatar" className="w-50 h-50 rounded-full mb-6 animate-jump" />
                     )}
-                    <div className="text-3xl mb-2 animate-fade animate-once animate-delay-[700ms]">Hoşgeldin</div>
-                    <h1 className="text-7xl font-bold mb-10 animate-jump-in animate-once">
+                    <div className="text-4xl mb-4 animate-fade animate-once animate-delay-[700ms]">Hoşgeldin</div>
+                    <h1 className="text-8xl font-bold mb-10 animate-jump-in animate-once">
                         {user.first_name} {user.last_name}
                     </h1>
                 </div>
