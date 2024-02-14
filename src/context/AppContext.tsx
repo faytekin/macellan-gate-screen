@@ -47,12 +47,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         SocketService.listen(pusherData, authUser.company_id, (_, eventUser) => {
             setUser(eventUser)
         })
-    }, [pusherData])
+    }, [authUser, pusherData])
 
     return (
-        <AppContext.Provider
-            value={{ isReady: isReady, authUser: authUser, pusherData: pusherData, user: user }}
-        >
+        <AppContext.Provider value={{ isReady: isReady, authUser: authUser, pusherData: pusherData, user: user }}>
             {children}
         </AppContext.Provider>
     )

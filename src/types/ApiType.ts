@@ -63,6 +63,23 @@ interface UserDetails {
     subscribe_sms: boolean
 }
 
+export interface TagQrReadEvent {
+    payment_id: number
+    order_id: number
+    gateway: string
+    paid_price: number
+    final_total: number
+    user_id: number
+    company_id: number
+    wallet_id: number
+    tag_qr: {
+        name: string
+        qr_code: string
+        reference_code: string
+        active: boolean
+    }
+}
+
 export interface ApiAuthUser {
     id: number
     first_name: string

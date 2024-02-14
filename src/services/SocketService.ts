@@ -1,15 +1,11 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import { User, EventWalletBalance, PusherType } from '@/types/ApiType.ts'
+import { User, PusherType, TagQrReadEvent } from '@/types/ApiType.ts'
 import ApiService from './ApiService'
 
 let socketInstance: Echo
 
-const listen = (
-    envData: PusherType,
-    companyId: number,
-    onChangeEvent: (data: EventWalletBalance, user: User) => void,
-) => {
+const listen = (envData: PusherType, companyId: number, onChangeEvent: (data: TagQrReadEvent, user: User) => void) => {
     socketDisconnect()
 
     console.log('[Socket] connecting')
@@ -45,16 +41,12 @@ const listen = (
 
     socketInstance
         .private(`company.${companyId}`)
-        .listen('.wallet.balance', async (data: EventWalletBalance) => {
-            if (!data.historyable_type.endsWith('Payment')) {
+        .listen('.wallet.tag_qr_read', async (data: TagQrReadEvent) => {
+            if (data.tag_qr.reference_code !== import.meta.env.VITE_TAG_QR_REFERENCE_CODE) {
                 return
             }
 
-            const payment = await ApiService.paymentDetails(data.historyable_id)
-
-            if (payment.related?.reference_code !== import.meta.env.VITE_TAG_QR_REFERENCE_CODE) {
-                return
-            }
+            const payment = await ApiService.paymentDetails(data.payment_id)
 
             onChangeEvent(data, payment.user)
         })

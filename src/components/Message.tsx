@@ -14,7 +14,7 @@ const Message: React.FC = () => {
 
         const timeout = setTimeout(() => {
             setIsVisible(false)
-        }, 5000)
+        }, 8000)
 
         return () => {
             clearTimeout(timeout)
