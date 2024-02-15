@@ -1,22 +1,21 @@
-import Echo from 'laravel-echo'
-import Pusher from 'pusher-js'
-import { User, PusherType, TagQrReadEvent } from '@/types/ApiType.ts'
 import ApiService from './ApiService'
 
-let socketInstance: Echo
+import { Person, PusherInfo, TagQrReadEvent } from '@/types/ApiType.ts'
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
 
-const listen = (envData: PusherType, companyId: number, onChangeEvent: (data: TagQrReadEvent, user: User) => void) => {
-    socketDisconnect()
+let socketInstance: Echo | null = null
 
+const initializeSocketInstance = (pusherInfo: PusherInfo) => {
     console.log('[Socket] connecting')
 
-    socketInstance = new Echo({
+    return new Echo({
         Pusher,
         broadcaster: 'pusher',
-        key: envData.key,
-        wsHost: envData.host,
-        wsPort: envData.port,
-        wssPort: envData.port,
+        key: pusherInfo.key,
+        wsHost: pusherInfo.host,
+        wsPort: pusherInfo.port,
+        wssPort: pusherInfo.port,
         cluster: 'eu',
         forceTLS: false,
         encrypted: true,
@@ -25,48 +24,71 @@ const listen = (envData: PusherType, companyId: number, onChangeEvent: (data: Ta
         authEndpoint: `${import.meta.env.VITE_SUPERAPP_URL}/broadcasting/auth`,
         bearerToken: import.meta.env.VITE_SUPERAPP_TOKEN,
     })
+}
 
-    socketInstance.connector.pusher.connection.bind('connected', () => {
+const listen = (
+    pusherInfo: PusherInfo,
+    companyId: number,
+    onChangeEvent: (person: Person) => void
+) => {
+    const handleConnected = () => {
         console.log('[Socket] connected')
-    })
+    }
 
-    socketInstance.connector.pusher.connection.bind('error', (err: never) => {
+    const handleError = (err: never) => {
         console.log('[Socket] error => ', err)
-    })
+    }
 
-    socketInstance.connector.pusher.connection.bind('disconnected', () => {
+    const handleDisconnected = () => {
         console.log('[Socket] disconnected => ')
-        socketInstance.leaveAllChannels()
-    })
+        socketInstance?.leaveAllChannels()
+    }
+
+    const handleTagQrRead = async (data: TagQrReadEvent) => {
+        if (
+            data.tag_qr.reference_code !==
+            import.meta.env.VITE_TAG_QR_REFERENCE_CODE
+        ) {
+            return
+        }
+
+        const payment = await ApiService.paymentDetails(data.payment_id)
+
+        onChangeEvent(payment.user)
+    }
+
+    const handleSubscribed = () => {
+        console.log('[Socket] is connected to private channel')
+    }
+
+    const handleErrorSubscribed = (data: never) => {
+        console.log('[Socket] Could not connect to private channel => ', data)
+    }
+
+    disconnect()
+
+    socketInstance = initializeSocketInstance(pusherInfo)
+    const socketConnection = socketInstance.connector.pusher.connection
+
+    socketConnection.bind('connected', handleConnected)
+    socketConnection.bind('error', handleError)
+    socketConnection.bind('disconnected', handleDisconnected)
 
     socketInstance
         .private(`company.${companyId}`)
-        .listen('.wallet.tag_qr_read', async (data: TagQrReadEvent) => {
-            if (data.tag_qr.reference_code !== import.meta.env.VITE_TAG_QR_REFERENCE_CODE) {
-                return
-            }
-
-            const payment = await ApiService.paymentDetails(data.payment_id)
-
-            onChangeEvent(data, payment.user)
-        })
-        .subscribed(() => {
-            console.log('[Socket] is connected to private channel')
-        })
-        .error((data: never) => {
-            console.log('[Socket] Could not connect to private channel => ', data)
-        })
+        .listen('.wallet.tag_qr_read', handleTagQrRead)
+        .subscribed(handleSubscribed)
+        .error(handleErrorSubscribed)
 }
 
-const socketDisconnect = (): void => {
-    if (!socketInstance) {
-        return
+const disconnect = () => {
+    if (socketInstance) {
+        socketInstance.disconnect()
+        socketInstance.leaveAllChannels()
     }
-
-    socketInstance.disconnect()
-    socketInstance.leaveAllChannels()
 }
 
 export default {
-    listen: listen,
+    listen,
+    disconnect,
 }

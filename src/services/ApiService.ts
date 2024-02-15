@@ -1,10 +1,9 @@
+import { AppInfo, PaymentDetail, WalletDetail } from '@/types/ApiType.ts'
 import axios, { AxiosInstance } from 'axios'
-
-import { ApiAppInfo, PaymentDetail, WalletDetail } from '@/types/ApiType.ts'
 
 const http: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_SUPERAPP_URL,
-    timeout: 5000,
+    timeout: 2000,
     headers: {
         Authorization: `Bearer ${import.meta.env.VITE_SUPERAPP_TOKEN}`,
         Accept: 'application/json',
@@ -23,7 +22,7 @@ const paymentDetails = async (id: number): Promise<PaymentDetail> => {
     return result.data.data
 }
 
-const appInfo = async (): Promise<ApiAppInfo> => {
+const appInfo = async (): Promise<AppInfo> => {
     const result = await http.get('integration/app-info')
 
     return result.data.data

@@ -1,9 +1,9 @@
-export interface ApiAppInfo {
-    auth_user: ApiAuthUser
-    pusher: PusherType
+export interface AppInfo {
+    auth_user: AuthUser
+    pusher: PusherInfo
 }
 
-export interface PusherType {
+export interface PusherInfo {
     host: string
     port: string
     key: string
@@ -11,7 +11,7 @@ export interface PusherType {
 
 export interface PaymentDetail {
     id: number
-    user: User
+    user: Person
     paid_price: number
     point: number
     final_total: number
@@ -38,20 +38,20 @@ export interface WalletDetail {
     balance: number
     point: number
     company_id: number
-    user: User
+    user: Person
 }
 
-export interface User {
+export interface Person {
     uuid: string
     first_name: string
     last_name: string
     full_name: string
     email: string
     phone: string
-    details: UserDetails
+    details: PersonDetails
 }
 
-interface UserDetails {
+interface PersonDetails {
     avatar_url: string
     device_id: string
     sim_id: string | null
@@ -80,7 +80,7 @@ export interface TagQrReadEvent {
     }
 }
 
-export interface ApiAuthUser {
+export interface AuthUser {
     id: number
     first_name: string
     last_name: string
@@ -90,16 +90,4 @@ export interface ApiAuthUser {
     role: string
     company_id: number
     branch_id: number
-}
-
-export interface EventWalletBalance {
-    id: number
-    type: string
-    description: string
-    amount: number
-    user_id: number
-    company_id: number
-    wallet_id: number
-    historyable_type: string
-    historyable_id: number
 }
