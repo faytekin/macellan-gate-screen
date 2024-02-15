@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import IntroScreen from '@/components/IntroScreen.tsx'
 import Welcome from '@/components/Welcome.tsx'
@@ -8,9 +7,9 @@ import SocketService from '@/services/SocketService.ts'
 import { AuthUser, Person, PusherInfo } from '@/types/ApiType.ts'
 
 function App() {
-    const [authUser, setAuthUser] = React.useState<AuthUser>()
-    const [pusherData, setPusherData] = React.useState<PusherInfo>()
-    const [person, setPerson] = React.useState<Person>()
+    const [authUser, setAuthUser] = useState<AuthUser>()
+    const [pusherData, setPusherData] = useState<PusherInfo>()
+    const [person, setPerson] = useState<Person>()
 
     const initializeApp = useCallback(async () => {
         try {
