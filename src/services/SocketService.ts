@@ -44,6 +44,8 @@ const listen = (
     }
 
     const handleTagQrRead = async (data: TagQrReadEvent) => {
+        console.log('event => ', data)
+
         if (
             data.tag_qr.reference_code !==
             import.meta.env.VITE_TAG_QR_REFERENCE_CODE

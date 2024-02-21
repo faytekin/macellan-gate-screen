@@ -1,4 +1,4 @@
-import macellanLogo from '@/assets/macellan-logo.png'
+import macellanLogo from '@/assets/macellan-superapp-logo.png'
 
 const IntroScreen = () => {
     // https://www.tailwindcss-animated.com/configurator.html
