@@ -4,6 +4,7 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 
 let socketInstance: Echo | null = null
+let connectAttempt: ReturnType<typeof setTimeout> | null = null
 
 const initializeSocketInstance = (pusherInfo: PusherInfo) => {
     console.log('[Socket] connecting')
@@ -25,31 +26,42 @@ const initializeSocketInstance = (pusherInfo: PusherInfo) => {
     })
 }
 
-const listen = (
-    pusherInfo: PusherInfo,
-    companyId: number,
-    onChangeEvent: (person: Person) => void
-) => {
+const listen = (pusherInfo: PusherInfo, companyId: number, onChangeEvent: (person: Person) => void) => {
     const handleConnected = () => {
         console.log('[Socket] connected')
+
+        if (connectAttempt) {
+            clearTimeout(connectAttempt)
+        }
     }
 
-    const handleError = (err: never) => {
+    const handleError = (err: unknown) => {
         console.log('[Socket] error => ', err)
     }
 
     const handleDisconnected = () => {
-        console.log('[Socket] disconnected => ')
-        socketInstance?.leaveAllChannels()
+        console.log('[Socket] disconnected')
+    }
+
+    const handleStateChange = (states: PusherStateChange) => {
+        console.log('[Socket] connection state changed => ', states)
+
+        if (states.current === 'unavailable' || states.current === 'failed') {
+            if (connectAttempt) {
+                clearTimeout(connectAttempt)
+            }
+
+            connectAttempt = setTimeout(() => {
+                console.log('[Socket] Trying to connect again')
+                listen(pusherInfo, companyId, onChangeEvent)
+            }, 2500)
+        }
     }
 
     const handleTagQrRead = async (data: TagQrReadEvent) => {
         console.log('event => ', data)
 
-        if (
-            data.tag_qr.reference_code !==
-            import.meta.env.VITE_TAG_QR_REFERENCE_CODE
-        ) {
+        if (data.tag_qr.reference_code !== import.meta.env.VITE_TAG_QR_REFERENCE_CODE) {
             return
         }
 
@@ -74,6 +86,7 @@ const listen = (
     socketConnection.bind('connected', handleConnected)
     socketConnection.bind('error', handleError)
     socketConnection.bind('disconnected', handleDisconnected)
+    socketConnection.bind('state_change', handleStateChange)
 
     socketInstance
         .private(`company.${companyId}`)
