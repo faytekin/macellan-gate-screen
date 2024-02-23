@@ -15,9 +15,6 @@ const Welcome = ({ person }: WelcomeProps) => {
                         className="w-50 h-50 rounded-full mb-6 animate-jump"
                     />
                 )}
-                <div className="text-4xl mb-4 animate-fade animate-once animate-delay-[700ms]">
-                    Hoşgeldin
-                </div>
                 <h1 className="text-8xl font-bold mb-10 animate-jump-in animate-once">
                     {person.first_name} {person.last_name}
                 </h1>
