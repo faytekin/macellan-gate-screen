@@ -21,8 +21,6 @@ const Message: React.FC = () => {
                         1000,
                         'Welcome',
                         1000,
-                        'Xoş gəldiniz',
-                        1000,
                         'Bienvenido',
                         1000,
                         'Willkommen',
