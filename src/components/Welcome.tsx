@@ -12,7 +12,7 @@ const Welcome = ({ person }: WelcomeProps) => {
                     <img
                         src={person.details.avatar_url}
                         alt="Person Avatar"
-                        className="w-50 h-50 rounded-full mb-6 animate-jump"
+                        className="object-cover avatar rounded-full mb-6 animate-jump"
                     />
                 )}
                 <h1 className="text-8xl font-bold mb-10 animate-jump-in animate-once">
