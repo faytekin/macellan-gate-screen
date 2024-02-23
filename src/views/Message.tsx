@@ -5,7 +5,7 @@ import { TypeAnimation } from 'react-type-animation'
 
 const Message: React.FC = () => {
     return (
-        <div className={`${classes.container} bg-gradient-to-bl to-indigo-900 from-purple-900`}>
+        <div className={`${classes.container} bg-gradient-to-bl from-indigo-900 to-purple-900`}>
             <h1>
                 <span style={{ color: 'white' }}>
                     <span style={{ color: '#e06c75' }}>console</span>.
