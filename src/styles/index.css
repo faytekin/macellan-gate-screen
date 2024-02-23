@@ -12,9 +12,11 @@
 }
 
 .clock-date {
-    font-size: 72px;
+    font-size: 9rem;
+    line-height: 1;
 }
 
 .clock-time {
-    font-size: 92px;
+    font-size: 12rem;
+    line-height: 1;
 }

@@ -19,7 +19,7 @@ const IntroScreen = () => {
     return (
         <div className="flex flex-col items-center justify-center h-full">
             <div className="text-center">
-                <div className="clock-date font-poppins mb-10">{currentDate.format('DD MMMM YYYY')}</div>
+                <div className="text-9xl font-poppins mb-10">{currentDate.format('DD MMMM YYYY')}</div>
                 <div className="clock-time font-thin font-poppins">{currentDate.format('HH:mm:ss')}</div>
             </div>
         </div>
