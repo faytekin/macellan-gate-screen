@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;500&display=swap');
+
+.container {
+    font-size: 7em;
+    font-family: JetBrains Mono, monospace;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    color: #e4bb68;
+    padding-left: 40vh;
+}
+
+.greeting {
+    position: relative;
+    top: 8.6vmin;
+    animation: white-out 5s infinite;
+}
+
+.cursor::after {
+    content: '|';
+    letter-spacing: -5px;
+    animation: cursor 1.1s infinite step-start;
+}
+
+@keyframes cursor {
+    50% {
+        opacity: 0;
+    }
+}
