@@ -17,15 +17,15 @@ const Message: React.FC = () => {
                     cursor={false}
                     className={classes.cursor}
                     sequence={[
-                        'Hoşgeldin',
+                        'Hoşgeldin!',
                         2500,
-                        'Welcome',
+                        'Welcome!',
                         2500,
-                        'Bienvenido',
+                        'Bienvenido!',
                         2500,
-                        'Willkommen',
+                        'Willkommen!',
                         2500,
-                        'ようこそ',
+                        'ようこそ!',
                         2500,
                     ]}
                     wrapper="span"
