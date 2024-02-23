@@ -15,7 +15,7 @@ const Welcome = ({ person }: WelcomeProps) => {
                         className="object-cover avatar rounded-full mb-6 animate-jump"
                     />
                 )}
-                <h1 className="text-8xl font-bold mb-10 animate-jump-in animate-once">
+                <h1 className="text-8xl font-bold mt-12 animate-jump-in animate-once">
                     {person.first_name} {person.last_name}
                 </h1>
             </div>
