@@ -7,6 +7,8 @@ import SocketService from '@/services/SocketService.ts'
 import { AuthUser, Person, PusherInfo } from '@/types/ApiType.ts'
 
 function Home() {
+    // https://www.tailwindcss-animated.com/configurator.html
+
     const [authUser, setAuthUser] = useState<AuthUser>()
     const [pusherData, setPusherData] = useState<PusherInfo>()
     const [person, setPerson] = useState<Person>()
