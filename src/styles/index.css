@@ -12,5 +12,9 @@
 }
 
 .clock-date {
-    font-size: 52px;
+    font-size: 72px;
+}
+
+.clock-time {
+    font-size: 92px;
 }
