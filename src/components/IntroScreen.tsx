@@ -6,11 +6,7 @@ const IntroScreen = () => {
     return (
         <div className="flex flex-col items-center justify-center h-full">
             <div className="flex items-center justify-center">
-                <img
-                    src={macellanLogo}
-                    alt="Macellan"
-                    className="w-[600px] h-auto"
-                />
+                <img src={macellanLogo} alt="Macellan" className="w-[800px] h-auto" />
             </div>
         </div>
     )
