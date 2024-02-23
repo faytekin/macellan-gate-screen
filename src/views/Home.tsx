@@ -48,7 +48,7 @@ function Home() {
     }, [person])
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-white font-poppins">
+        <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br to-indigo-900 from-purple-900 text-white font-poppins">
             {person ? <Welcome person={person} /> : <IntroScreen />}
         </div>
     )
