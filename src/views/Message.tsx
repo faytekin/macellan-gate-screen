@@ -18,17 +18,15 @@ const Message: React.FC = () => {
                     className={classes.cursor}
                     sequence={[
                         'Hoşgeldin',
-                        1000,
+                        2500,
                         'Welcome',
-                        1000,
-                        'Xoş gəldiniz',
-                        1000,
+                        2500,
                         'Bienvenido',
-                        1000,
+                        2500,
                         'Willkommen',
-                        1000,
+                        2500,
                         'ようこそ',
-                        1000,
+                        2500,
                     ]}
                     wrapper="span"
                     speed={50}
