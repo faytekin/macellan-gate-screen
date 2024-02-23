@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import dayjs from 'dayjs'
+import 'dayjs/locale/tr'
+
+dayjs.locale('tr')
 
 const IntroScreen = () => {
     const [currentDate, setCurrentDate] = useState(dayjs())
