@@ -7,6 +7,7 @@ export interface PusherInfo {
     host: string
     port: string
     key: string
+    auth_endpoint: string
 }
 
 export interface PaymentDetail {

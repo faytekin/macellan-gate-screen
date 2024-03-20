@@ -21,7 +21,7 @@ const initializeSocketInstance = (pusherInfo: PusherInfo) => {
         encrypted: true,
         enableStats: false,
         enabledTransports: ['ws', 'wss'],
-        authEndpoint: `${import.meta.env.VITE_SUPERAPP_URL}/broadcasting/auth`,
+        authEndpoint: pusherInfo.auth_endpoint,
         bearerToken: import.meta.env.VITE_SUPERAPP_TOKEN,
     })
 }
